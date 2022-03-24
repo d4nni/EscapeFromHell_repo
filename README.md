@@ -1,2 +1,2 @@
 # EscapeFromHell_repo
-geymsla fyrir lokaverkefnið 
+geymsla fyrir lokaverkefnið í Leikjaforritun 2
