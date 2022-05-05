@@ -2,6 +2,46 @@ a:hover {
     color: red;
 }
 
+iframe {
+    max-width: 100%;
+    height: auto;
+    text-align: center;
+}
+
 .enginLina {
     text-decoration: none;
+}
+
+.fa-info-circle, .fa-youtube-play {
+    font-size: 200px;
+}
+
+.fa-home {
+    font-size: 54px;
+}
+
+.fa-gamepad .stort, .fa-download .stort {
+    font-size: 30px;
+}
+
+.fa-bars {
+    font-size: 54px;
+}
+
+.nedriLinkar {
+    text-align: center;
+}
+
+.bakgrunnur {
+    background-image: url('myndir/hell_image.png');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+@media(min-width: 601px) {
+    iframe {
+        width: 90%;
+        height: 22em;
+    }
 }
