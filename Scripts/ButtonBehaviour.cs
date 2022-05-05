@@ -38,7 +38,7 @@ public class ButtonBehaviour : MonoBehaviour
     public void OnButtonPressGameOver() // þessi fer í gang þegar smellt er á byrja aftur takka í game over senu
     {
         clickSound.Play();
-        // hleður upp senu sem player dó í seinast
-        SceneManager.LoadScene(senuNr);
+        // hleður upp fyrsta borði
+        SceneManager.LoadScene(2);
     }
 }

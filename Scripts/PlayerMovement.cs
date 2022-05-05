@@ -5,12 +5,15 @@ using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
+	public int maxHealth = 100;
+	public int currentHealth;
 	//skilgreini breytur
 	public CharacterController2D controller;
 	public Animator animator;
 	public AudioSource footsteps;
 	public AudioSource fireattack;
 	public AudioSource death;
+	public bool hasTakenDamage = false;
 	public BoxCollider2D GroundCheck;
 
 	// b�r til breytu spriterenderer fyrir eldri sprite mynd
@@ -29,8 +32,18 @@ public class PlayerMovement : MonoBehaviour
 	// public static int breyta sem notu� er til a� geyma senu index �ar sem player deyr
 	public static int senaNr;
 
+	public HealthBar healthBar;
+
+	void Start() {
+		currentHealth = maxHealth;
+		healthBar.SetMaxHealth(maxHealth);
+	}
+
 	void Update()
 	{
+		if(healthBar.GetHealth() <= 0){
+			SceneManager.LoadScene(6);
+		}
 		horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed; //næ í "wasd" og örvatakka value, hvort það sé ýtt á þá og margfalda með hraðanum
 		animator.SetFloat("Speed", Mathf.Abs(horizontalMove)); //stilli hraðabreytuna sem animatorinn hlustar á og breytur úr idle í walk animation og til baka
 
@@ -51,6 +64,11 @@ public class PlayerMovement : MonoBehaviour
 			AttackCollision.SetActive(false);//disable-a trigger collider fyrir eldinn
 		}
 		if (gameObject.GetComponent<SpriteRenderer>().color == new Color(50,0,0)){ //hlustar eftir ef enemy skriftan breytir litnum á playernum (sem táknar damage)
+			if(hasTakenDamage==false){
+				currentHealth -= 10;
+				healthBar.SetHealth(currentHealth);
+				hasTakenDamage = true;
+			}
 			StartCoroutine(turnColorOff()); //byrjar IEnumerator sem gerir litinn á karakternum aftur venjulegann
 		}
 
@@ -86,10 +104,8 @@ public class PlayerMovement : MonoBehaviour
 		// ef rekist er � trigger me� tag Daudur, �egar player deyr
 		else if (col.gameObject.tag == "Daudur")
         {
-			// nær í núverandi senu
-			Scene scene = SceneManager.GetActiveScene();
-			// setur senu indexin � senaNr breytuna og n�� er � �essa breytu � buttonbehaviour skriftunni
-			senaNr = scene.buildIndex;
+			currentHealth = 0;
+			healthBar.SetHealth(currentHealth);
 			// spilar death sound players
 			death.Play();
 			// hle�ur upp gameover senu
@@ -114,5 +130,7 @@ public class PlayerMovement : MonoBehaviour
 	public IEnumerator turnColorOff(){ //stilli colorinn aftur í venjulegan
 		yield return new WaitForSeconds(0.5f); //bíð í hálfa sek
 		gameObject.GetComponent<SpriteRenderer>().color = new Color(100,100,100);//endurstillir colorinn í venjulegt horf
+		hasTakenDamage = false;
+		//Debug.Log(currentHealth);
 	}
 }
