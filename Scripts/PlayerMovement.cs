@@ -16,9 +16,9 @@ public class PlayerMovement : MonoBehaviour
 	public bool hasTakenDamage = false;
 	public BoxCollider2D GroundCheck;
 
-	// b�r til breytu spriterenderer fyrir eldri sprite mynd
+	// býr til breytu spriterenderer fyrir eldri sprite mynd
 	SpriteRenderer old_sprite_img;
-	// b�r til breytu fyrir n�ja sprite, n�ja mynd er dregin � breytuna � editor
+	// býr til breytu fyrir nýja sprite, nýja mynd er dregin á breytuna í editor
 	public Sprite new_sprite_img;
 
 	public float runSpeed = 40f;
@@ -29,7 +29,7 @@ public class PlayerMovement : MonoBehaviour
 
 	public GameObject AttackCollision;
 
-	// public static int breyta sem notu� er til a� geyma senu index �ar sem player deyr
+	// public static int breyta sem notuð er til að geyma senu index þar sem player deyr
 	public static int senaNr;
 
 	public HealthBar healthBar;
@@ -41,7 +41,7 @@ public class PlayerMovement : MonoBehaviour
 
 	void Update()
 	{
-		if(healthBar.GetHealth() <= 0){
+		if(healthBar.GetHealth() <= 0){ // ef health er minna eða jafnt og núll, s.s. player dauður, þá loadar senu 6, sem er game over sena
 			SceneManager.LoadScene(6);
 		}
 		horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed; //næ í "wasd" og örvatakka value, hvort það sé ýtt á þá og margfalda með hraðanum
@@ -83,9 +83,9 @@ public class PlayerMovement : MonoBehaviour
 	{
 		if (collision.collider.tag == "IceBlock")
 		{
-			// setur spriterender iceblock inn � old sprite img breytu
+			// setur spriterender iceblock inn í old sprite img breytu
 			old_sprite_img = collision.collider.GetComponent<SpriteRenderer>();
-			// breytir gamla sprite yfir � n�ja
+			// breytir gamla sprite yfir í nýja
 			old_sprite_img.sprite = new_sprite_img;
 			// byrjar coroutine timer, sendir gameobject iceblocksins me�
 			StartCoroutine(Timer(collision.gameObject));
@@ -93,31 +93,31 @@ public class PlayerMovement : MonoBehaviour
 	}
 	void OnTriggerEnter2D(Collider2D col)
 	{
-		// ef rekist er � trigger sem er me� tag Trigger
+		// ef rekist er á trigger sem er með tag Trigger
 		if (col.gameObject.tag == "Trigger")
 		{
-			// n�r � n�verandi senu
+			// nær í núverandi senu
 			Scene scene = SceneManager.GetActiveScene();
-			// hle�ur upp n�stu senu
+			// hleður upp næstu senu
 			SceneManager.LoadScene(scene.buildIndex + 1);
 		}
-		// ef rekist er � trigger me� tag Daudur, �egar player deyr
+		// ef rekist er á trigger með tag Daudur, þegar player deyr
 		else if (col.gameObject.tag == "Daudur")
         {
 			currentHealth = 0;
 			healthBar.SetHealth(currentHealth);
 			// spilar death sound players
 			death.Play();
-			// hle�ur upp gameover senu
+			// hleður upp gameover senu
 			StartCoroutine(SkiptaSenu(6,1.4f));
         }
 	}
 
 	IEnumerator Timer(GameObject objectid)
     {
-		// b��ur � fimm sek
+		// bíður í fimm sek
 		yield return new WaitForSeconds(5);
-		// fjarl�gir objecti�, sem er iceblocki�, �r senunni
+		// fjarlægir objectið, sem er iceblockið, úr senunni
 		objectid.SetActive(false);
 	}
 	IEnumerator SkiptaSenu(int tala, float timi)
