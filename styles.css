@@ -32,6 +32,11 @@ iframe {
     text-align: center;
 }
 
+.center {
+	margin-left: auto;
+    margin-right: auto;
+}
+
 .bakgrunnur {
     background-image: url('myndir/hell_image.png');
     background-repeat: no-repeat;
